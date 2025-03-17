@@ -13,11 +13,12 @@ pub fn spawn_attack_hitbox(
         if state.is_attacking && state.attack_timer.percent() < 0.1 {
             if let Ok(weapon) = weapon_query.get(equipped.entity) {
                 // Create a hitbox in front of the character
-                let hitbox_transform = transform.clone()
-                    .with_translation(transform.translation + transform.forward() * weapon.range);
+                let hitbox_transform = Transform::from_translation(
+                    transform.translation + transform.forward() * weapon.range
+                );
                 
                 commands.spawn((
-                    TransformBundle::from(hitbox_transform),
+                    hitbox_transform,
                     AttackHitbox {
                         radius: weapon.range * 0.5,
                         damage_multiplier: 1.0,
@@ -33,7 +34,7 @@ pub fn spawn_attack_hitbox(
 pub fn cleanup_attack_hitboxes(
     mut commands: Commands,
     query: Query<(Entity, &AttackHitbox)>,
-    time: Res<Time>,
+    _time: Res<Time>,
 ) {
     for (entity, _) in query.iter() {
         // Despawn hitboxes after one frame

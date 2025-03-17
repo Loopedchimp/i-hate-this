@@ -4,13 +4,13 @@ use crate::weapons::components::EquippedWeapon;
 use rand::prelude::*;
 
 pub fn simple_enemy_ai(
-    mut commands: Commands,
+    _commands: Commands,
     time: Res<Time>,
     mut enemy_query: Query<(Entity, &mut Movement, &mut CombatState, &mut Transform, &EquippedWeapon), With<Enemy>>,
     player_query: Query<&Transform, With<Player>>,
 ) {
     if let Ok(player_transform) = player_query.get_single() {
-        for (entity, mut movement, mut combat_state, mut transform, _) in enemy_query.iter_mut() {
+        for (_entity, mut movement, mut combat_state, mut transform, _) in enemy_query.iter_mut() {
             // Get direction to player
             let direction = player_transform.translation - transform.translation;
             let distance = direction.length();
@@ -18,7 +18,7 @@ pub fn simple_enemy_ai(
             // If close enough to attack
             if distance < 2.0 && !combat_state.is_attacking && !combat_state.is_blocking {
                 // 10% chance to attack per second
-                if random::<f32>() < 0.1 * time.delta_seconds() {
+                if random::<f32>() < 0.1 * time.delta_secs() {
                     combat_state.is_attacking = true;
                     combat_state.attack_timer.reset();
                 }

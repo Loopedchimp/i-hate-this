@@ -15,7 +15,7 @@ impl Default for AttackHitbox {
     }
 }
 
-#[derive(Component, Debug, Clone)]
+#[derive(Event, Debug, Clone)]
 pub struct DamageEvent {
     pub attacker: Entity,
     pub target: Entity,

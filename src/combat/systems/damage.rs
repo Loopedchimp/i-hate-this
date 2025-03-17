@@ -25,7 +25,7 @@ pub fn apply_damage(
     mut query: Query<&mut Health>,
     mut damage_events: EventReader<DamageEvent>,
 ) {
-    for event in damage_events.iter() {
+    for event in damage_events.read() {
         if let Ok(mut health) = query.get_mut(event.target) {
             health.current -= event.final_damage;
             
@@ -33,9 +33,7 @@ pub fn apply_damage(
             
             // Create a damage number entity (placeholder for visual feedback)
             commands.spawn(
-                TransformBundle::from(Transform::from_translation(
-                    Vec3::new(0.0, 1.0, 0.0)
-                )),
+                Transform::from_translation(Vec3::new(0.0, 1.0, 0.0)),
             );
         }
     }

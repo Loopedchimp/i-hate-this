@@ -11,12 +11,10 @@ impl Plugin for CombatPlugin {
         app
             .init_resource::<CombatSettings>()
             .add_event::<DamageEvent>()
-            .add_systems(Update, (
-                spawn_attack_hitbox,
-                cleanup_attack_hitboxes,
-                detect_hits,
-                apply_damage,
-                check_death,
-            ).chain());
+            .add_systems(Update, spawn_attack_hitbox)
+            .add_systems(Update, cleanup_attack_hitboxes.after(spawn_attack_hitbox))
+            .add_systems(Update, detect_hits.after(cleanup_attack_hitboxes))
+            .add_systems(Update, apply_damage.after(detect_hits))
+            .add_systems(Update, check_death.after(apply_damage));
     }
 }

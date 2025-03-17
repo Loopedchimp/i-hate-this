@@ -36,7 +36,7 @@ impl Default for Stamina {
 pub struct CombatStats {
     pub strength: u32,
     pub dexterity: u32,
-    pub defense: u32,
+    pub defence: u32,
 }
 
 impl Default for CombatStats {
@@ -44,7 +44,7 @@ impl Default for CombatStats {
         Self {
             strength: 10,
             dexterity: 10,
-            defense: 10,
+            defence: 10,
         }
     }
 }

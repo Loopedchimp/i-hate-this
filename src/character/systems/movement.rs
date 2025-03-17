@@ -2,22 +2,22 @@ use bevy::prelude::*;
 use crate::character::components::{Movement, Player};
 
 pub fn player_movement(
-    keyboard_input: Res<Input<KeyCode>>,
+    keyboard_input: Res<InMut<KeyCode>>,
     mut query: Query<(&mut Movement, &mut Transform), With<Player>>,
 ) {
     for (mut movement, mut transform) in query.iter_mut() {
         let mut direction = Vec3::ZERO;
         
-        if keyboard_input.pressed(KeyCode::W) {
+        if keyboard_input.pressed(KeyCode::KeyW) {
             direction += Vec3::new(0.0, 0.0, -1.0);
         }
-        if keyboard_input.pressed(KeyCode::S) {
+        if keyboard_input.pressed(KeyCode::KeyS) {
             direction += Vec3::new(0.0, 0.0, 1.0);
         }
-        if keyboard_input.pressed(KeyCode::A) {
+        if keyboard_input.pressed(KeyCode::KeyA) {
             direction += Vec3::new(-1.0, 0.0, 0.0);
         }
-        if keyboard_input.pressed(KeyCode::D) {
+        if keyboard_input.pressed(KeyCode::KeyD) {
             direction += Vec3::new(1.0, 0.0, 0.0);
         }
         
@@ -40,7 +40,7 @@ pub fn apply_movement(
 ) {
     for (movement, mut transform) in query.iter_mut() {
         if movement.direction != Vec3::ZERO {
-            transform.translation += movement.direction * movement.speed * time.delta_seconds();
+            transform.translation += movement.direction * movement.speed * time.delta_secs();
         }
     }
 }

@@ -3,7 +3,7 @@ use crate::weapons::components::{Weapon, EquippedWeapon};
 use crate::character::components::{CombatState, Stamina};
 
 pub fn process_weapon_input(
-    keyboard_input: Res<Input<KeyCode>>,
+    keyboard_input: Res<InMut<KeyCode>>,
     mut query: Query<(&mut CombatState, &mut Stamina, &EquippedWeapon)>,
     weapon_query: Query<&Weapon>,
 ) {

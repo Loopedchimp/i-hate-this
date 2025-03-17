@@ -1,12 +1,12 @@
 use bevy::prelude::*;
-use crate::character::components::{Health, Stamina, CombatState};
+use crate::character::components::{Stamina, CombatState};
 
 pub fn update_stamina(
     time: Res<Time>,
     mut query: Query<&mut Stamina>,
 ) {
     for mut stamina in query.iter_mut() {
-        stamina.current = (stamina.current + stamina.regen_rate * time.delta_seconds())
+        stamina.current = (stamina.current + stamina.regen_rate * time.delta_secs())
             .min(stamina.max);
     }
 }

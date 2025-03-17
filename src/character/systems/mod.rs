@@ -1,6 +1,7 @@
-pub mod components;
-pub mod resources;
-pub mod systems;
-pub mod plugins;
+pub mod movement;
+pub mod stats;
+pub mod ai;
 
-pub use plugins::CharacterPlugin;
+pub use movement::*;
+pub use stats::*;
+pub use ai::*;

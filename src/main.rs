@@ -26,32 +26,28 @@ fn setup(
     mut materials: ResMut<Assets<StandardMaterial>>,
 ) {
     // Set up camera
-    commands.spawn(Camera3dBundle {
-        transform: Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-        ..default()
-    });
+    commands.spawn((
+        Camera3d::default(),
+        Transform::from_xyz(-2.0, 2.5, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+    ));
     
     // Add lighting
-    commands.spawn(DirectionalLightBundle {
-        transform: Transform::from_xyz(3.0, 8.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
-        directional_light: DirectionalLight {
+    commands.spawn((
+        DirectionalLight {
             shadows_enabled: true,
             ..default()
         },
-        ..default()
-    });
+        Transform::from_xyz(3.0, 8.0, 5.0).looking_at(Vec3::ZERO, Vec3::Y),
+    ));
     
     // Spawn player
-    let player_mesh = meshes.add(Mesh::from(shape::Capsule::default()));
-    let player_material = materials.add(Color::rgb(0.2, 0.7, 0.2).into());
+    let player_mesh = meshes.add(Capsule3d::default().into());
+    let player_material = materials.add(Color::srgb(0.2, 0.7, 0.2).into());
     
     let player = commands.spawn((
-        PbrBundle {
-            mesh: player_mesh.clone(),
-            material: player_material,
-            transform: Transform::from_xyz(0.0, 1.0, 0.0),
-            ..default()
-        },
+        Mesh3d(player_mesh.clone()),
+        MeshMaterial3d(player_material),
+        Transform::from_xyz(0.0, 1.0, 0.0),
         character::components::Health::default(),
         character::components::Stamina::default(),
         character::components::CombatStats::default(),
@@ -77,16 +73,13 @@ fn setup(
     });
     
     // Spawn enemy
-    let enemy_mesh = meshes.add(Mesh::from(shape::Capsule::default()));
-    let enemy_material = materials.add(Color::rgb(0.7, 0.2, 0.2).into());
+    let enemy_mesh = meshes.add(Capsule3d::default().into());
+    let enemy_material = materials.add(Color::srgb(0.7, 0.2, 0.2).into());
     
     let enemy = commands.spawn((
-        PbrBundle {
-            mesh: enemy_mesh,
-            material: enemy_material,
-            transform: Transform::from_xyz(3.0, 1.0, 0.0),
-            ..default()
-        },
+        Mesh3d(enemy_mesh),
+        MeshMaterial3d(enemy_material),
+        Transform::from_xyz(3.0, 1.0, 0.0),
         character::components::Health::default(),
         character::components::Stamina::default(),
         character::components::CombatStats::default(),
@@ -115,13 +108,12 @@ fn setup(
     });
     
     // Add a simple ground plane
-    let ground_mesh = meshes.add(Mesh::from(shape::Plane::from_size(10.0)));
-    let ground_material = materials.add(Color::rgb(0.3, 0.3, 0.3).into());
+    let ground_mesh = meshes.add(Plane3d::default().into());
+    let ground_material = materials.add(Color::srgb(0.3, 0.3, 0.3).into());
     
-    commands.spawn(PbrBundle {
-        mesh: ground_mesh,
-        material: ground_material,
-        transform: Transform::from_xyz(0.0, 0.0, 0.0),
-        ..default()
-    });
+    commands.spawn((
+        Mesh3d(ground_mesh), 
+        MeshMaterial3d(ground_material),
+        Transform::from_xyz(0.0, 0.0, 0.0),
+    ));
 }
