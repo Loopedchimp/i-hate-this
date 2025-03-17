@@ -1,0 +1,1 @@
+// Weapon resources will go here when needed

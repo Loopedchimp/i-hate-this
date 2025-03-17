@@ -1,0 +1,21 @@
+[package]
+name = "bannerlord_combat"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = "0.15.3"
+rand = "0.8.5"
+# You might need these dependencies later as the game expands
+# bevy_rapier3d = "0.24.0" # Physics engine for Bevy 0.15.3
+# bevy_asset_loader = "0.20.0" # Asset loading
+# leafwing-input-manager = "0.13.3" # Input handling
+
+# Enable optimizations for dependencies but not for our code in debug mode
+[profile.dev.package."*"]
+opt-level = 3
+
+# Enable high optimizations for dependencies and our code in release mode
+[profile.release]
+opt-level = 3
+lto = "thin"
